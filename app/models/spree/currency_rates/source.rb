@@ -15,6 +15,14 @@ module Spree
         raise NotImplementedError
       end
 
+      def api_key_required?
+        false
+      end
+
+      def display_name
+        raise NotImplementedError
+      end
+
       protected
 
       def get_base_currency

@@ -15,14 +15,14 @@ module Spree
         Spree::CurrencyRates::Config = app.config.spree_currency_rates.preferences
       end
 
-      initializer 'spree.currency_rates.register.sources' do |app|
+      initializer 'spree.currency_rates.register.sources', before: :load_config_initializers do |app|
         app.config.spree_currency_rates.sources = [
             Spree::CurrencyRates::Source::Ecb,
             Spree::CurrencyRates::Source::Fixer
         ]
       end
 
-      initializer 'spree.currency_rates.register.bank' do |app|
+      initializer 'spree_currency_rates.register.bank' do |app|
         ::Money.default_bank = Spree::CurrencyRates::Config.bank
       end
 

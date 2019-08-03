@@ -11,11 +11,19 @@ module Spree
       yield(Spree::CurrencyRates::Config)
     end
 
+    def self.source
+      klass = Spree::CurrencyRates::Config.source.constantize
+      klass.new
+    end
+
+    def self.import_rates
+      source.import
+    end
+
     def self.update_product_prices
       markup = Spree::CurrencyRates::Config.markup_in_percent || 0
       rounding_method = nil
       rounding_method = Proc.new { |v| v * (1 + markup / 100.0) } unless markup == 0
-      puts "markup: #{markup}"
 
       Spree::Variant.includes(:default_price).all.each do |p|
         default_money = p.default_price.money.money
